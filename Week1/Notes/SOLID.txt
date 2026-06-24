@@ -1,0 +1,520 @@
+=========================================================
+SOLID PRINCIPLES - COMPLETE NOTES
+=========================================================
+
+SOLID is a set of 5 Object-Oriented Design Principles
+introduced by Robert C. Martin (Uncle Bob).
+
+Purpose:
+--------
+1. Write maintainable code
+2. Reduce code complexity
+3. Increase flexibility
+4. Improve scalability
+5. Make code easy to test and extend
+
+SOLID stands for:
+
+S - Single Responsibility Principle
+O - Open Closed Principle
+L - Liskov Substitution Principle
+I - Interface Segregation Principle
+D - Dependency Inversion Principle
+
+=========================================================
+1. SINGLE RESPONSIBILITY PRINCIPLE (SRP)
+=========================================================
+
+Definition:
+-----------
+"A class should have only one reason to change."
+
+Meaning:
+--------
+One class should perform only one responsibility.
+
+Bad Example:
+------------
+
+class Employee {
+
+    public void calculateSalary() {}
+
+    public void saveToDatabase() {}
+
+    public void generateReport() {}
+}
+
+Problems:
+---------
+This class has 3 responsibilities:
+
+1. Salary Calculation
+2. Database Operations
+3. Report Generation
+
+Any change in any responsibility affects the class.
+
+Good Example:
+-------------
+
+class SalaryCalculator {
+    public void calculateSalary() {}
+}
+
+class EmployeeRepository {
+    public void saveEmployee() {}
+}
+
+class EmployeeReport {
+    public void generateReport() {}
+}
+
+Advantages:
+-----------
+1. Easy maintenance
+2. Better readability
+3. Easier testing
+4. Less coupling
+
+Real World Example:
+-------------------
+Student Management System
+
+Separate classes for:
+
+StudentService
+StudentRepository
+StudentReportGenerator
+
+Interview Answer:
+-----------------
+A class should have only one responsibility and one
+reason to change.
+
+=========================================================
+2. OPEN CLOSED PRINCIPLE (OCP)
+=========================================================
+
+Definition:
+-----------
+"Software entities should be open for extension but
+closed for modification."
+
+Meaning:
+--------
+You should add new functionality without changing
+existing code.
+
+Bad Example:
+------------
+
+class PaymentService {
+
+    public void pay(String type) {
+
+        if(type.equals("UPI")) {
+            System.out.println("UPI Payment");
+        }
+        else if(type.equals("CARD")) {
+            System.out.println("Card Payment");
+        }
+    }
+}
+
+Problem:
+--------
+Adding a new payment method requires modifying
+existing code.
+
+Good Example:
+-------------
+
+interface Payment {
+    void pay();
+}
+
+class UpiPayment implements Payment {
+
+    public void pay() {
+        System.out.println("UPI Payment");
+    }
+}
+
+class CardPayment implements Payment {
+
+    public void pay() {
+        System.out.println("Card Payment");
+    }
+}
+
+Adding NetBanking:
+
+class NetBankingPayment implements Payment {
+
+    public void pay() {
+        System.out.println("Net Banking");
+    }
+}
+
+No modification required.
+
+Advantages:
+-----------
+1. Easy extension
+2. Stable existing code
+3. Better maintainability
+
+Interview Answer:
+-----------------
+New functionality should be added by extending code
+rather than modifying existing code.
+
+=========================================================
+3. LISKOV SUBSTITUTION PRINCIPLE (LSP)
+=========================================================
+
+Definition:
+-----------
+"Derived classes should be replaceable with their
+base classes without affecting correctness."
+
+Meaning:
+--------
+A child class should be able to replace its parent
+class without breaking behavior.
+
+Bad Example:
+------------
+
+class Bird {
+    public void fly() {}
+}
+
+class Penguin extends Bird {
+
+    public void fly() {
+        throw new UnsupportedOperationException();
+    }
+}
+
+Problem:
+--------
+Penguin cannot fly.
+
+Penguin is not a proper substitute for Bird.
+
+Good Example:
+-------------
+
+class Bird {}
+
+interface Flyable {
+    void fly();
+}
+
+class Sparrow extends Bird implements Flyable {
+
+    public void fly() {
+        System.out.println("Flying");
+    }
+}
+
+class Penguin extends Bird {
+}
+
+Advantages:
+-----------
+1. Correct inheritance
+2. Better polymorphism
+3. Avoid unexpected behavior
+
+Real World Example:
+-------------------
+
+Vehicle
+   |
+Car
+Bike
+
+If Bike cannot perform something defined in Vehicle,
+the hierarchy is wrong.
+
+Interview Answer:
+-----------------
+A subclass should be usable anywhere its parent class
+is expected without changing program behavior.
+
+=========================================================
+4. INTERFACE SEGREGATION PRINCIPLE (ISP)
+=========================================================
+
+Definition:
+-----------
+"Clients should not be forced to depend on methods
+they do not use."
+
+Meaning:
+--------
+Create small and specific interfaces.
+
+Bad Example:
+------------
+
+interface Worker {
+
+    void work();
+
+    void eat();
+
+    void sleep();
+}
+
+class Robot implements Worker {
+
+    public void work() {}
+
+    public void eat() {}
+
+    public void sleep() {}
+}
+
+Problem:
+--------
+Robot doesn't eat or sleep.
+
+Good Example:
+-------------
+
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+interface Sleepable {
+    void sleep();
+}
+
+class Human implements Workable,
+                        Eatable,
+                        Sleepable {
+
+    public void work() {}
+
+    public void eat() {}
+
+    public void sleep() {}
+}
+
+class Robot implements Workable {
+
+    public void work() {}
+}
+
+Advantages:
+-----------
+1. Small interfaces
+2. Better flexibility
+3. Cleaner design
+
+Interview Answer:
+-----------------
+A class should not be forced to implement methods it
+does not need.
+
+=========================================================
+5. DEPENDENCY INVERSION PRINCIPLE (DIP)
+=========================================================
+
+Definition:
+-----------
+"High-level modules should not depend on low-level
+modules. Both should depend on abstractions."
+
+Meaning:
+--------
+Depend on interfaces, not concrete classes.
+
+Bad Example:
+------------
+
+class MySQLDatabase {
+
+    public void connect() {}
+}
+
+class UserService {
+
+    private MySQLDatabase db =
+            new MySQLDatabase();
+}
+
+Problem:
+--------
+UserService is tightly coupled to MySQL.
+
+Switching to PostgreSQL requires modifying code.
+
+Good Example:
+-------------
+
+interface Database {
+
+    void connect();
+}
+
+class MySQLDatabase implements Database {
+
+    public void connect() {
+        System.out.println("MySQL Connected");
+    }
+}
+
+class PostgreSQLDatabase implements Database {
+
+    public void connect() {
+        System.out.println("PostgreSQL Connected");
+    }
+}
+
+class UserService {
+
+    private Database database;
+
+    public UserService(Database database) {
+        this.database = database;
+    }
+}
+
+Usage:
+
+Database db = new MySQLDatabase();
+
+UserService service =
+        new UserService(db);
+
+Advantages:
+-----------
+1. Loose coupling
+2. Easy testing
+3. Easy replacement of dependencies
+4. Supports Dependency Injection
+
+Spring Boot heavily uses DIP.
+
+Interview Answer:
+-----------------
+High-level modules should depend on abstractions
+(interfaces), not concrete implementations.
+
+=========================================================
+SOLID IN SPRING BOOT
+=========================================================
+
+SRP:
+----
+Service, Repository, Controller layers separated.
+
+OCP:
+----
+Adding new implementations using interfaces.
+
+LSP:
+----
+Service implementations can replace interfaces.
+
+ISP:
+----
+Small focused interfaces.
+
+DIP:
+----
+@Autowired injects interfaces instead of concrete
+classes.
+
+Example:
+
+@Service
+public class UserServiceImpl
+        implements UserService {
+}
+
+@Autowired
+private UserService userService;
+
+=========================================================
+REAL WORLD E-COMMERCE EXAMPLE
+=========================================================
+
+SRP:
+----
+OrderService
+PaymentService
+NotificationService
+
+OCP:
+----
+Add UPI/Card/PayPal payment methods without modifying
+existing code.
+
+LSP:
+----
+CreditCardPayment and UpiPayment can replace Payment.
+
+ISP:
+----
+Separate Refundable and Payable interfaces.
+
+DIP:
+----
+OrderService depends on Payment interface rather than
+CardPayment class.
+
+=========================================================
+SOLID REVISION TABLE
+=========================================================
+
+S - Single Responsibility Principle
+-----------------------------------
+One class = One responsibility
+
+O - Open Closed Principle
+-------------------------
+Open for extension
+Closed for modification
+
+L - Liskov Substitution Principle
+---------------------------------
+Child should replace parent safely
+
+I - Interface Segregation Principle
+-----------------------------------
+Small specific interfaces
+
+D - Dependency Inversion Principle
+----------------------------------
+Depend on abstractions, not concrete classes
+
+=========================================================
+MOST ASKED INTERVIEW QUESTION
+=========================================================
+
+What is SOLID?
+
+SOLID is a collection of five object-oriented design
+principles that help developers build maintainable,
+flexible, scalable, loosely coupled, and testable
+software systems.
+
+S - Single Responsibility Principle
+O - Open Closed Principle
+L - Liskov Substitution Principle
+I - Interface Segregation Principle
+D - Dependency Inversion Principle
+
+=========================================================
+END OF NOTES
+=========================================================

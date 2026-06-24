@@ -1,0 +1,596 @@
+========================================
+SINGLETON DESIGN PATTERN - COMPLETE NOTES
+========================================
+
+1. WHAT IS A SINGLETON?
+----------------------
+
+Singleton is a Creational Design Pattern that ensures:
+
+1. Only one object of a class is created.
+2. A global access point is provided to that object.
+
+Definition:
+"A Singleton class allows only one instance of itself to be created and provides a single point of access to that instance."
+
+Real-life Examples:
+-------------------
+1. Printer Spooler
+   - Only one printer manager should control printing.
+
+2. Database Connection Manager
+   - One shared database connection manager.
+
+3. Logger Service
+   - One logging service used throughout the application.
+
+4. Configuration Manager
+   - One configuration object for the entire application.
+
+5. Cache Manager
+   - One cache instance shared across the application.
+
+
+====================================================
+2. WHY DO WE NEED THE SINGLETON PATTERN?
+====================================================
+
+Problem:
+--------
+
+Consider a database connection class.
+
+class DatabaseConnection {
+}
+
+Without Singleton:
+
+DatabaseConnection db1 = new DatabaseConnection();
+DatabaseConnection db2 = new DatabaseConnection();
+DatabaseConnection db3 = new DatabaseConnection();
+
+Three separate objects are created.
+
+Issues:
+-------
+1. Increased memory usage.
+2. Resource wastage.
+3. Inconsistent data.
+4. Multiple connections created unnecessarily.
+
+Solution:
+---------
+
+Create only one object and share it everywhere.
+
+Singleton ensures:
+------------------
+Only one object exists throughout the application's lifecycle.
+
+
+====================================================
+3. CHARACTERISTICS OF A SINGLETON
+====================================================
+
+A Singleton class has:
+
+1. Private constructor
+2. Static instance variable
+3. Public static method to access the object
+
+Structure:
+
+class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+
+
+====================================================
+4. HOW SINGLETON WORKS
+====================================================
+
+Step 1:
+-------
+
+Object creation from outside is prevented.
+
+private Singleton() {}
+
+Now this is illegal:
+
+Singleton s = new Singleton();
+
+Compilation Error.
+
+Reason:
+-------
+Constructor is private.
+
+
+Step 2:
+-------
+
+Create a static object reference.
+
+private static Singleton instance;
+
+Why static?
+
+Because it belongs to the class and can be accessed
+without creating an object.
+
+
+Step 3:
+-------
+
+Provide a public access method.
+
+public static Singleton getInstance() {
+    if(instance == null) {
+        instance = new Singleton();
+    }
+    return instance;
+}
+
+Logic:
+------
+
+First call:
+instance = null
+
+Object gets created.
+
+Second call:
+instance already exists.
+
+Existing object is returned.
+
+No new object is created.
+
+
+====================================================
+5. SIMPLE SINGLETON IMPLEMENTATION
+====================================================
+
+public class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() {
+        System.out.println("Object Created");
+    }
+
+    public static Singleton getInstance() {
+
+        if(instance == null) {
+            instance = new Singleton();
+        }
+
+        return instance;
+    }
+}
+
+Code.FactoryMethod Class:
+
+public class Code.FactoryMethod {
+
+    public static void main(String[] args) {
+
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1);
+        System.out.println(s2);
+    }
+}
+
+Output:
+
+Object Created
+Singleton@1234
+Singleton@1234
+
+Only one object created.
+
+
+====================================================
+6. VERIFYING USING HASHCODE
+====================================================
+
+public class Code.FactoryMethod {
+
+    public static void main(String[] args) {
+
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1.hashCode());
+        System.out.println(s2.hashCode());
+    }
+}
+
+Output:
+
+366712642
+366712642
+
+Same hashcode means same object reference.
+
+If hashcodes differ:
+
+366712642
+987654321
+
+Then multiple objects exist.
+
+Singleton has failed.
+
+
+====================================================
+7. TYPES OF SINGLETON
+====================================================
+
+A. Eager Initialization
+B. Lazy Initialization
+C. Thread Safe Singleton
+D. Double Checked Locking
+E. Bill Pugh Singleton
+F. Enum Singleton
+
+
+====================================================
+8. EAGER INITIALIZATION
+====================================================
+
+Object created immediately.
+
+public class Singleton {
+
+    private static final Singleton instance =
+            new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+
+Advantages:
+-----------
+1. Simple
+2. Thread Safe
+
+Disadvantages:
+--------------
+1. Object created even if unused.
+2. Memory wastage possible.
+
+
+====================================================
+9. LAZY INITIALIZATION
+====================================================
+
+Object created only when needed.
+
+public class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+
+        if(instance == null) {
+            instance = new Singleton();
+        }
+
+        return instance;
+    }
+}
+
+Advantages:
+-----------
+1. Saves memory.
+2. Object created on demand.
+
+Disadvantages:
+--------------
+1. Not thread safe.
+
+
+====================================================
+10. THREAD SAFETY PROBLEM
+====================================================
+
+Suppose:
+
+Thread-1
+Thread-2
+
+Both execute:
+
+if(instance == null)
+
+at the same time.
+
+Thread-1 creates object.
+
+Thread-2 also creates object.
+
+Result:
+
+Two objects created.
+
+Singleton broken.
+
+
+====================================================
+11. THREAD SAFE SINGLETON
+====================================================
+
+public class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() {}
+
+    public static synchronized Singleton getInstance() {
+
+        if(instance == null) {
+            instance = new Singleton();
+        }
+
+        return instance;
+    }
+}
+
+Advantage:
+----------
+Safe in multi-threading.
+
+Disadvantage:
+-------------
+Slightly slower due to synchronization.
+
+
+====================================================
+12. DOUBLE CHECKED LOCKING
+====================================================
+
+public class Singleton {
+
+    private static volatile Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+
+        if(instance == null) {
+
+            synchronized(Singleton.class) {
+
+                if(instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+
+        return instance;
+    }
+}
+
+Benefits:
+---------
+1. Thread Safe
+2. Better Performance
+3. Industry standard approach
+
+
+====================================================
+13. BILL PUGH SINGLETON
+====================================================
+
+Recommended in interviews.
+
+public class Singleton {
+
+    private Singleton() {}
+
+    private static class Helper {
+
+        private static final Singleton INSTANCE =
+                new Singleton();
+    }
+
+    public static Singleton getInstance() {
+        return Helper.INSTANCE;
+    }
+}
+
+Advantages:
+-----------
+1. Lazy Loading
+2. Thread Safe
+3. High Performance
+
+
+====================================================
+14. ENUM SINGLETON
+====================================================
+
+public enum Singleton {
+
+    INSTANCE;
+
+    public void display() {
+        System.out.println("Singleton");
+    }
+}
+
+Usage:
+
+Singleton.INSTANCE.display();
+
+Advantages:
+-----------
+1. Thread Safe
+2. Prevents Reflection attacks
+3. Prevents Serialization issues
+
+Most robust Singleton implementation.
+
+
+====================================================
+15. SINGLETON VS STATIC CLASS
+====================================================
+
+Singleton:
+----------
+- Object exists.
+- Can implement interfaces.
+- Supports inheritance.
+- Can hold state.
+
+Static Class:
+-------------
+- No object.
+- Cannot implement interfaces easily.
+- Less flexible.
+
+Singleton is more object-oriented.
+
+
+====================================================
+16. ADVANTAGES OF SINGLETON
+====================================================
+
+1. Controlled access to resources.
+2. Saves memory.
+3. Avoids duplicate objects.
+4. Global access point.
+5. Easy sharing of common resources.
+6. Useful for logging, caching, configurations.
+
+
+====================================================
+17. DISADVANTAGES OF SINGLETON
+====================================================
+
+1. Global state can make testing difficult.
+2. Violates Single Responsibility Principle sometimes.
+3. Harder to mock during unit testing.
+4. Can create hidden dependencies.
+
+
+====================================================
+18. COMMON INTERVIEW QUESTIONS
+====================================================
+
+Q1. Why constructor is private?
+
+To prevent object creation using new.
+
+----------------------------------------------------
+
+Q2. Why getInstance() is static?
+
+So we can access it without creating an object.
+
+----------------------------------------------------
+
+Q3. Why instance variable is static?
+
+Because only one copy should exist for the class.
+
+----------------------------------------------------
+
+Q4. How do you verify Singleton?
+
+Using hashCode().
+
+Same hashcode => same object.
+
+----------------------------------------------------
+
+Q5. Which Singleton is best?
+
+Bill Pugh Singleton
+or
+Enum Singleton
+
+----------------------------------------------------
+
+Q6. Is Singleton thread safe?
+
+Lazy Singleton is not.
+
+Thread Safe, Bill Pugh and Enum versions are.
+
+----------------------------------------------------
+
+Q7. Can Singleton be broken?
+
+Yes.
+
+Using:
+1. Reflection
+2. Serialization
+3. Cloning
+
+Enum Singleton prevents these issues.
+
+----------------------------------------------------
+
+Q8. Where is Singleton used in Spring Boot?
+
+Spring Beans are Singleton by default.
+
+Example:
+
+@Service
+public class UserService {
+}
+
+Spring creates one shared object and reuses it.
+
+This is Singleton scope.
+
+
+====================================================
+19. QUICK REVISION
+====================================================
+
+Singleton =
+One Class
+One Object
+Global Access Point
+
+Key Components:
+---------------
+1. Private Constructor
+2. Static Instance Variable
+3. Static getInstance() Method
+
+Best Implementations:
+---------------------
+1. Bill Pugh Singleton
+2. Enum Singleton
+
+Most Asked Interview Line:
+--------------------------
+
+"Singleton is a creational design pattern that ensures
+only one instance of a class exists and provides a
+global access point to that instance."
+
+========================================
+END OF NOTES
+========================================

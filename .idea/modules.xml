@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/cognizant-FSE.iml" filepath="$PROJECT_DIR$/.idea/cognizant-FSE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week1/Mandatory-Design_Patterns-Singleton/Mandatory-Design_Patterns-Singleton.iml" filepath="$PROJECT_DIR$/Week1/Mandatory-Design_Patterns-Singleton/Mandatory-Design_Patterns-Singleton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week1/Mandatory-Design_Patterns-Singleton/Design_Patterns/Singleton/Singleton.iml" filepath="$PROJECT_DIR$/Week1/Mandatory-Design_Patterns-Singleton/Design_Patterns/Singleton/Singleton.iml" />
+    </modules>
+  </component>
+</project>

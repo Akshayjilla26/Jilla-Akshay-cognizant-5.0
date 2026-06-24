@@ -1,0 +1,69 @@
+===============================================================
+  E-Commerce Platform - Search Function Analysis
+  Author : Jilla Siva Sai Akshay Guptha
+  ID     : 7963010
+===============================================================
+
+OBJECTIVE:
+----------
+Implement and compare Linear Search and Binary Search for
+searching products in an e-commerce platform by Product ID.
+
+---------------------------------------------------------------
+1. LINEAR SEARCH
+---------------------------------------------------------------
+Approach:
+  - Iterates through each product in the catalog one by one.
+  - Compares each product's ID with the target ID.
+  - Returns the index on match, or -1 if not found.
+
+Time Complexity:
+  - Best Case  : O(1)  - Target is the first element
+  - Average    : O(n)  - Target is somewhere in the middle
+  - Worst Case : O(n)  - Target is last or not present
+
+Space Complexity: O(1) - No extra space used
+
+When to Use:
+  - When the product list is small or unsorted
+  - When products are added/removed frequently (no sorting needed)
+
+---------------------------------------------------------------
+2. BINARY SEARCH
+---------------------------------------------------------------
+Approach:
+  - Requires the product array to be sorted by Product ID.
+  - Divides the search range in half at each step.
+  - Compares the mid element with the target; adjusts range accordingly.
+  - Returns the index on match, or -1 if not found.
+
+Time Complexity:
+  - Best Case  : O(1)  - Target is the middle element
+  - Average    : O(log n)
+  - Worst Case : O(log n)
+
+Space Complexity: O(1) - Iterative approach, no extra space
+
+When to Use:
+  - When the product list is large and sorted by ID
+  - When search operations are performed frequently
+
+---------------------------------------------------------------
+3. COMPARISON SUMMARY
+---------------------------------------------------------------
+
+| Feature             | Linear Search | Binary Search |
+|---------------------|---------------|---------------|
+| Sorting Required    | No            | Yes           |
+| Best Case           | O(1)          | O(1)          |
+| Worst Case          | O(n)          | O(log n)      |
+| Use for Small Data  | Preferred     | Overkill      |
+| Use for Large Data  | Slow          | Preferred     |
+
+---------------------------------------------------------------
+CONCLUSION:
+-----------
+For a real e-commerce platform with thousands of products,
+Binary Search is the better choice due to O(log n) complexity.
+Linear Search is suitable only for small or unsorted catalogs.
+===============================================================
