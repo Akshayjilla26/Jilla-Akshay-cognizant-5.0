@@ -85,4 +85,4 @@ Algorithms Implemented:
 
 ## Acknowledgement
 
-Developed as part of the Cognizant Digital Nurture 4.0 Java Full Stack Engineering Training Program.
+Developed as part of the Cognizant Digital Nurture 4.0 Java Full Stack Engineering Training.
