@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Exercise 1: bean fully defined and wired via XML -->
+    <bean id="librarian" class="com.akshay.library.Librarian">
+        <property name="name" value="Akshay"/>
+        <property name="shift" value="Morning"/>
+    </bean>
+
+</beans>

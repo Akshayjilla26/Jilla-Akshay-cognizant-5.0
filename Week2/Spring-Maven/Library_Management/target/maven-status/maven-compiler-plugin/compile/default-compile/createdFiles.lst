@@ -1,0 +1,7 @@
+com\akshay\library\repository\BookRepository.class
+com\akshay\library\model\Book.class
+com\akshay\library\LibraryManagementApplication.class
+com\akshay\library\config\AppConfig.class
+com\akshay\library\Librarian.class
+com\akshay\library\service\BookService.class
+com\akshay\library\config\LibraryDesk.class
